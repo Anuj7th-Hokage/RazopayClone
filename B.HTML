@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Price</title>
+</head>
+<body>
+    <h1>Stock Data for AAPL</h1>
+    <div id="stock-data">Loading...</div>
+
+    <script>
+        const apiKey = 'GBV3WJDY0IGDO2CS';  
+const symbol = 'AAPL'; 
+const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=${apiKey}`;
+
+        async function getStockData() {
+            const response = await fetch(url);
+            const data = await response.json();
+            const timeSeries = data['Time Series (1min)'];
+            const latestTime = Object.keys(timeSeries)[0];
+            const latestData = timeSeries[latestTime];
+
+            document.getElementById('stock-data').innerText = 
+                `Price: ${latestData['1. open']} USD (Updated: ${latestTime})`;
+        }
+
+        getStockData();
+    </script>
+</body>
+</html>
+
